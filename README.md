@@ -17,7 +17,17 @@ Check out the live version of the website here:
 
 Here’s a quick walkthrough of the website in action:
 
-![Website_Demo](./project_implementation/videos/website.webp)
+### Website
+
+![Website Demo](./project_implementation/videos/website.webp)
+
+### Responsive Desgin
+
+![Responsive Design](./project_implementation/videos/responsive.webp)
+
+### Send Emails
+
+![Message Feedback](./project_implementation/videos/message_feedback.webp)
 
 ---
 

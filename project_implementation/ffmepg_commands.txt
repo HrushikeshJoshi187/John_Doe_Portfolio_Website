@@ -1,0 +1,1 @@
+ffmpeg -i website.mkv -vf "fps=10,scale=iw:ih:flags=lanczos" -q:v 100 -loop 0 website.webp

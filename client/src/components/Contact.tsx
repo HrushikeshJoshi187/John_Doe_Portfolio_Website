@@ -104,6 +104,8 @@ const Contact = (): JSX.Element => {
     client_message: "",
   });
 
+  const [alert, setAlert] = useState({ show: false, type: "", message: "" });
+
   const handleChange = (
     e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ): void => {
@@ -126,11 +128,11 @@ const Contact = (): JSX.Element => {
       .then(
         (result) => {
           console.log("Success:", result.text);
-          alert("Message sent successfully!");
+          showAlert("success", "Message sent successfully!");
         },
         (error) => {
           console.log("Error:", error.text);
-          alert("Error sending message, please try again later.");
+          showAlert("error", "Error sending message, please try again later.");
         }
       );
 
@@ -139,6 +141,14 @@ const Contact = (): JSX.Element => {
       client_email: "",
       client_message: "",
     });
+  };
+
+  const showAlert = (type: string, message: string) => {
+    setAlert({ show: true, type, message });
+
+    setTimeout(() => {
+      setAlert({ show: false, type: "", message: "" });
+    }, 3000);
   };
 
   return (
@@ -241,6 +251,7 @@ const Contact = (): JSX.Element => {
             required
             placeholder="John_Doe_Portfolio_Website"
             value="John_Doe_Portfolio_Website"
+            readOnly
           />
 
           <button
@@ -250,6 +261,22 @@ const Contact = (): JSX.Element => {
             Submit
           </button>
         </form>
+
+        {alert.show && (
+          <div
+            className={`fixed top-5 right-5 z-50 px-6 py-3 text-sm font-medium text-white rounded shadow-lg transition-opacity duration-300 ${
+              alert.type === "success" ? "bg-green-500" : "bg-red-500"
+            }`}
+          >
+            {alert.message}
+            <button
+              onClick={() => setAlert({ ...alert, show: false })}
+              className="ml-4 text-white hover:text-gray-200"
+            >
+              ✖
+            </button>
+          </div>
+        )}
       </div>
     </section>
   );
