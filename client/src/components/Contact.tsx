@@ -1,7 +1,25 @@
+import { useState, ChangeEvent, FormEvent } from "react";
+import emailjs from "@emailjs/browser";
+
+const EMAILJS_SERVICE_ID =
+  import.meta.env.VITE_EMAILJS_SERVICE_ID ??
+  (() => {
+    console.warn("EMAILJS_SERVICE_ID not defined. Falling back to default.");
+    return "default_service";
+  })();
+const EMAILJS_TEMPLATE_ID = import.meta.env.VITE_EMAILJS_TEMPLATE_ID;
+const EMAILJS_USER_ID = import.meta.env.VITE_EMAILJS_USER_ID;
+
 interface SocialLink {
   href: string;
   icon: JSX.Element;
   alt: string;
+}
+
+interface FormData {
+  name: string;
+  email: string;
+  message: string;
 }
 
 const socialLinks: SocialLink[] = [
@@ -80,6 +98,46 @@ const socialLinks: SocialLink[] = [
 ];
 
 const Contact = (): JSX.Element => {
+  const [formData, setFormData] = useState<FormData>({
+    name: "",
+    email: "",
+    message: "",
+  });
+
+  const handleChange = (
+    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ): void => {
+    const { name, value } = e.target;
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
+  };
+
+  const handleSubmit = (e: FormEvent<HTMLFormElement>): void => {
+    e.preventDefault();
+
+    emailjs
+      .sendForm(
+        EMAILJS_SERVICE_ID,
+        EMAILJS_TEMPLATE_ID,
+        e.currentTarget,
+        EMAILJS_USER_ID
+      )
+      .then(
+        (result) => {
+          console.log("Success:", result.text);
+          alert("Message sent successfully!");
+        },
+        (error) => {
+          console.log("Error:", error.text);
+          alert("Error sending message, please try again later.");
+        }
+      );
+
+    e.currentTarget.reset();
+  };
+
   return (
     <section id="contact" className="section">
       <div className="container lg:grid lg:grid-cols-2 lg:items-stretch">
@@ -108,7 +166,12 @@ const Contact = (): JSX.Element => {
           </div>
         </div>
 
-        <form action="" className="xl:pl-10 2xl:pl-20" method="POST">
+        <form
+          className="xl:pl-10 2xl:pl-20"
+          action=""
+          method="POST"
+          onSubmit={handleSubmit}
+        >
           <div className="md:grid md:items-center md:grid-cols-2 md:gap-2">
             <div className="mb-4">
               <label htmlFor="name" className="label reveal-up">
@@ -116,13 +179,15 @@ const Contact = (): JSX.Element => {
               </label>
 
               <input
+                className="text-field reveal-up"
                 type="text"
                 name="name"
                 id="name"
                 autoComplete="name"
                 required
                 placeholder="John Doe"
-                className="text-field reveal-up"
+                value={formData.name}
+                onChange={handleChange}
               />
             </div>
 
@@ -139,6 +204,8 @@ const Contact = (): JSX.Element => {
                 required
                 placeholder="JohnDoe@gmail.com"
                 className="text-field reveal-up"
+                value={formData.email}
+                onChange={handleChange}
               />
             </div>
           </div>
@@ -154,6 +221,8 @@ const Contact = (): JSX.Element => {
               placeholder="Hi!"
               className="text-field resize-y min-h-32 max-h-80 reveal-up"
               required
+              value={formData.message}
+              onChange={handleChange}
             ></textarea>
           </div>
 
