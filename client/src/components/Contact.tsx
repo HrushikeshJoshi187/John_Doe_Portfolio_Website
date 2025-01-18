@@ -3,12 +3,12 @@ import emailjs from "@emailjs/browser";
 
 const EMAILJS_SERVICE_ID =
   import.meta.env.VITE_EMAILJS_SERVICE_ID ??
-  (() => {
+  ((() => {
     console.warn("EMAILJS_SERVICE_ID not defined. Falling back to default.");
     return "default_service";
-  })();
-const EMAILJS_TEMPLATE_ID = import.meta.env.VITE_EMAILJS_TEMPLATE_ID;
-const EMAILJS_USER_ID = import.meta.env.VITE_EMAILJS_USER_ID;
+  })() as string);
+const EMAILJS_TEMPLATE_ID = import.meta.env.VITE_EMAILJS_TEMPLATE_ID as string;
+const EMAILJS_USER_ID = import.meta.env.VITE_EMAILJS_USER_ID as string;
 
 interface SocialLink {
   href: string;
@@ -17,9 +17,9 @@ interface SocialLink {
 }
 
 interface FormData {
-  name: string;
-  email: string;
-  message: string;
+  client_name: string;
+  client_email: string;
+  client_message: string;
 }
 
 const socialLinks: SocialLink[] = [
@@ -99,9 +99,9 @@ const socialLinks: SocialLink[] = [
 
 const Contact = (): JSX.Element => {
   const [formData, setFormData] = useState<FormData>({
-    name: "",
-    email: "",
-    message: "",
+    client_name: "",
+    client_email: "",
+    client_message: "",
   });
 
   const handleChange = (
@@ -117,13 +117,12 @@ const Contact = (): JSX.Element => {
   const handleSubmit = (e: FormEvent<HTMLFormElement>): void => {
     e.preventDefault();
 
+    console.log(e.currentTarget);
+
     emailjs
-      .sendForm(
-        EMAILJS_SERVICE_ID,
-        EMAILJS_TEMPLATE_ID,
-        e.currentTarget,
-        EMAILJS_USER_ID
-      )
+      .sendForm(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, e.currentTarget, {
+        publicKey: EMAILJS_USER_ID,
+      })
       .then(
         (result) => {
           console.log("Success:", result.text);
@@ -135,7 +134,11 @@ const Contact = (): JSX.Element => {
         }
       );
 
-    e.currentTarget.reset();
+    setFormData({
+      client_name: "",
+      client_email: "",
+      client_message: "",
+    });
   };
 
   return (
@@ -174,57 +177,71 @@ const Contact = (): JSX.Element => {
         >
           <div className="md:grid md:items-center md:grid-cols-2 md:gap-2">
             <div className="mb-4">
-              <label htmlFor="name" className="label reveal-up">
+              <label htmlFor="client_name" className="label reveal-up">
                 Name
               </label>
 
               <input
                 className="text-field reveal-up"
                 type="text"
-                name="name"
-                id="name"
+                name="client_name"
+                id="client_name"
                 autoComplete="name"
                 required
                 placeholder="John Doe"
-                value={formData.name}
+                value={formData.client_name}
                 onChange={handleChange}
               />
             </div>
 
             <div className="mb-4">
-              <label htmlFor="email" className="label reveal-up">
+              <label htmlFor="client_email" className="label reveal-up">
                 Email
               </label>
 
               <input
                 type="email"
-                name="email"
-                id="email"
+                name="client_email"
+                id="client_email"
                 autoComplete="email"
                 required
                 placeholder="JohnDoe@gmail.com"
                 className="text-field reveal-up"
-                value={formData.email}
+                value={formData.client_email}
                 onChange={handleChange}
               />
             </div>
           </div>
 
           <div className="mb-4">
-            <label htmlFor="message" className="label reveal-up">
+            <label htmlFor="client_message" className="label reveal-up">
               Message
             </label>
 
             <textarea
-              name="message"
-              id="message"
+              name="client_message"
+              id="client_message"
               placeholder="Hi!"
               className="text-field resize-y min-h-32 max-h-80 reveal-up"
               required
-              value={formData.message}
+              value={formData.client_message}
               onChange={handleChange}
             ></textarea>
           </div>
+
+          <label htmlFor="project_name" className="hidden">
+            Project Name
+          </label>
+
+          <input
+            className="hidden"
+            type="text"
+            name="project_name"
+            id="project_name"
+            required
+            placeholder="John_Doe_Portfolio_Website"
+            value="John_Doe_Portfolio_Website"
+          />
 
           <button
             type="submit"
