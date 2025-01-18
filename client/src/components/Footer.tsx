@@ -116,8 +116,7 @@ const Footer = (): JSX.Element => {
 
           <p className="text-zinc-500 text-sm reveal-up">
             &copy; {new Date().getFullYear()}{" "}
-            <span className="text-zinc-200">Hrushikesh Joshi</span>. All rights
-            reserved
+            <span className="text-zinc-200">John Doe</span>. All rights reserved
           </p>
         </div>
       </div>
