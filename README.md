@@ -11,7 +11,7 @@ Tutorial link: [CodeWithSadee Tutorial](https://www.youtube.com/watch?v=k3JMkRwd
 ## 🌐 Deployed Website
 
 Check out the live version of the website here:  
-🔗 [https://johndoeportfoliowebsite.netlify.app/](https://johndoeportfoliowebsite.netlify.app)
+🔗 [https://johndoeportfoliowebsite.netlify.app](https://johndoeportfoliowebsite.netlify.app)
 
 ## 🎥 Demo Video
 
