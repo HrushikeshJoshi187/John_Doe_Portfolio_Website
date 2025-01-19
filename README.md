@@ -1,6 +1,6 @@
 # John Doe Portfolio Website 🌟
 
-Excited to share my sleek and responsive portfolio website! 🚀
+Excited to share new sleek and responsive portfolio website! 🚀
 
 This project was a great opportunity for me to take my **TailwindCSS** skills to the next level, while following the fantastic tutorial by [CodeWithSadee](https://www.youtube.com/@codewithsadee). Throughout this journey, I deepened my knowledge of **TypeScript** and also learned how to use the **GSAP** library for stunning, smooth animations that feel natural to the eye. The color selection and typography choices truly elevate the overall experience. Additionally, I implemented **Lenis** for smooth scrolling effects, and **EmailJS** for handling form submissions directly from the frontend in a serverless manner. I also implemented the **Glassmorphism** design style to enhance the visual appeal.
 
