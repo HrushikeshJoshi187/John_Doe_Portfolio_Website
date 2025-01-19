@@ -1,1 +1,7 @@
 ffmpeg -i website.mkv -vf "fps=10,scale=iw:ih:flags=lanczos" -q:v 100 -loop 0 website.webp
+
+ffmpeg -i website.mkv -vf "fps=10,scale=iw:ih:flags=lanczos" -loop 0 website.gif
+
+ffmpeg -i responsive.mkv -vf "fps=4,scale=-1:720:flags=lanczos,palettegen" palette.png
+
+ffmpeg -i responsive.mkv -i palette.png -filter_complex "fps=4,scale=-1:720:flags=lanczos[x];[x][1:v]paletteuse" -loop 0 responsive.gif
