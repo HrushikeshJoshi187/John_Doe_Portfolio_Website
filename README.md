@@ -104,13 +104,19 @@ Here’s a quick walkthrough of the website in action:
    cd John_Doe_Portfolio_Website
    ```
 
-3. Install dependencies:
+3. Navigate to the project folder:
+
+   ```bash
+   cd client
+   ```
+
+4. Install dependencies:
 
    ```bash
    npm install
    ```
 
-4. Start the development server:
+5. Start the development server:
 
    ```bash
    npm run dev
